@@ -16,12 +16,28 @@ function TraineeshipForm() {
         })
     }
 
-    const onSubmit = () => {
-
+    const onSubmit = (e: React.SyntheticEvent) => {
+        async function submit() {
+            e.preventDefault();
+            const url = "/submit";
+            let request = {
+                method: "POST",
+                mode: "same-origin" as RequestMode,
+                headers: { "Content-type": "application/json" },
+                body: JSON.stringify(state)
+            }
+            let response = await fetch(url, request);
+            if (response && response.ok) {
+                console.log("Submit succeeded.");
+            } else {
+                console.log("Submit failed.");
+            }
+        }
+        submit();
     }
 
     return (
-        <form>
+        <form onSubmit={onSubmit}>
             <label htmlFor='firstname'>Firstname:</label>
             <input type='text' id='firstname' name='firstname' onChange={onChange} value={state.firstname}></input>
             <br />
@@ -31,7 +47,7 @@ function TraineeshipForm() {
             <label htmlFor='email'>Email:</label>
             <input type='email' id='email' name='email' onChange={onChange} value={state.email}></input>
             <br />
-            <button onClick={onSubmit}>Submit</button>
+            <input type="submit" value="Submit" />
         </form>
     );
 }
