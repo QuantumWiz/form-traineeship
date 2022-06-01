@@ -2,6 +2,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import express from 'express';
 import 'express-async-errors';
+import { State } from './models/state-model';
 
 const { execFile } = require("child_process");
 const app = express();
@@ -23,7 +24,7 @@ app.post("/submit", (req, res) => {
     if (!req.body) {
         return res.status(400).json({ message: "Bad request" });
     }
-    const {firstname, surname, email} = req.body;
+    const {firstname, surname, email}: State = req.body;
     if (!firstname || !surname || !email) {
         return res.status(400).json({ message: "Bad request" });
     }
