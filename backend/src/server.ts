@@ -24,7 +24,7 @@ app.post("/submit", (req, res) => {
     if (!req.body) {
         return res.status(400).json({ message: "Bad request" });
     }
-    const {firstname, surname, email}: State = req.body;
+    const { firstname, surname, email }: State = req.body;
     if (!firstname || !surname || !email) {
         return res.status(400).json({ message: "Bad request" });
     }
