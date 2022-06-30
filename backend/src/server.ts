@@ -3,6 +3,7 @@ import helmet from 'helmet';
 import express from 'express';
 import 'express-async-errors';
 import { State } from './models/state-model';
+import { stdout } from 'process';
 
 const { execFile } = require("child_process");
 const app = express();
@@ -28,8 +29,15 @@ app.post("/submit", (req, res) => {
     if (!firstname || !surname || !email) {
         return res.status(400).json({ message: "Bad request" });
     }
-    const scriptPath: string = "/root/systools/bin/ai/test.sh";
-    execFile(scriptPath, [firstname, surname, email]);
+    const scriptPath: string = "/root/systools/bin/ai/email-recruit-trainee-ipr.sh";
+    execFile(scriptPath, [firstname, surname, email], (error:Error, stdout:string, stderr:string) => {
+        console.log("stdout:");
+        console.log(stdout);
+        console.log("stderr:");
+        console.log(stderr);
+        console.log("error:");
+        console.log(error);
+    });
     return res.status(200).json({ message: "Success" });
 })
 
